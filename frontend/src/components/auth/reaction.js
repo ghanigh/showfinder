@@ -55,7 +55,7 @@ const Reaction = () => {
         <div>
             <h2>Réactions (Likes/Dislikes)</h2>
 
-            {/* Formulaire pour ajouter une réaction */}
+            {/* Formulaire pour ajouter un réaction */}
             <div>
                 <h3>Ajouter une nouvelle réaction</h3>
                 <input
