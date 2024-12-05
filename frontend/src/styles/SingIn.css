@@ -1,0 +1,80 @@
+.sign-in {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    background-color: #1f1f1f;
+    color: #fff;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+  }
+  
+  .sign-in h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #eaeaea;
+  }
+  
+  .sign-in label {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 16px;
+  }
+  
+  .sign-in input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #555;
+    border-radius: 5px;
+    background-color: #333;
+    color: #fff;
+    font-size: 16px;
+    margin-bottom: 10px;
+    transition: background-color 0.3s ease, border 0.3s ease;
+  }
+  
+  .sign-in input:focus {
+    background-color: #444;
+    border-color: #888;
+  }
+  
+  .sign-in button[type="submit"] {
+    background-color: #1f1f1f;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+  }
+  
+  .sign-in button[type="submit"]:hover {
+    background-color: #333;
+  }
+  
+  .sign-in .signup-redirect {
+    background-color: transparent;
+    border: none;
+    color: #eaeaea;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 20px;
+    text-decoration: underline;
+  }
+  
+  .sign-in .signup-redirect:hover {
+    color: #fff;
+  }
+  
+  .error {
+    color: red;
+    margin-top: 10px;
+  }
+  .success-message {
+    color: green;
+    font-size: 16px;
+    margin-top: 10px;
+  }
+  

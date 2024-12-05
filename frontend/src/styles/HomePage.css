@@ -1,0 +1,78 @@
+/* src/styles/HomePage.css */
+.HomePage {
+  text-align: center;
+  padding: 20px;
+}
+
+.HomePage img {
+  max-width: 100%;
+  height: auto;
+}
+
+.platforms {
+  display: flex;
+  justify-content: center;
+  gap: 20px; /* Espacement entre les logos */
+  flex-wrap: wrap; /* Assure que les logos se déplacent à la ligne suivante si nécessaire */
+  margin: 0 auto;
+  max-width: 100%;
+}
+
+.platforms button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.platforms img {
+  border: none;
+  background: none;
+  display: block;
+  width: 70px; /* Taille des logos, ajuste si nécessaire */
+  height: 70px;
+}
+
+.show-footer-button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #007bff; /* Couleur du bouton */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.show-footer-button:hover {
+  background-color: #0056b3; /* Couleur du bouton au survol */
+}
+
+/* Responsive Design pour la page d'accueil */
+@media (max-width: 768px) {
+  .HomePage {
+    padding: 15px; /* Ajuste le padding pour les écrans moyens */
+  }
+
+  .platforms {
+    gap: 15px; /* Réduit l'espace entre les éléments */
+  }
+
+  .platforms img {
+    width: 60px; /* Réduit la taille des logos */
+    height: 60px;
+  }
+}
+
+@media (max-width: 480px) {
+  .HomePage {
+    padding: 10px; /* Réduit le padding pour les très petits écrans */
+  }
+
+  .platforms {
+    gap: 10px; /* Réduit encore l'espace entre les éléments */
+  }
+
+  .platforms img {
+    width: 50px; /* Réduit encore la taille des logos */
+    height: 50px;
+  }
+}

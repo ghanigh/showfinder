@@ -1,0 +1,74 @@
+/* CSS pour la section CombienDeTemps */
+.CombienDeTemps {
+  text-align: center;
+  padding: 20px; /* Padding général pour une présentation équilibrée */
+}
+
+.CombienDeTemps .logo {
+  width: 30px;
+  height: 30px;
+  margin: 5px;
+}
+
+.CombienDeTemps h1 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+/* Responsive Design pour les petits écrans */
+@media screen and (max-width: 768px) {
+  .CombienDeTemps {
+    padding: 15px; /* Réduire le padding pour les écrans moyens */
+  }
+
+  .CombienDeTemps h1 {
+    font-size: 20px;
+    margin-bottom: 15px;
+  }
+
+  .CombienDeTemps .logo {
+    width: 25px;
+    height: 25px;
+    margin: 4px;
+  }
+
+  .CombienDeTemps div {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .CombienDeTemps button {
+    margin: 8px;
+    padding: 10px 20px;
+    font-size: 14px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .CombienDeTemps {
+    padding: 10px; /* Réduire encore le padding pour les très petits écrans */
+  }
+
+  .CombienDeTemps h1 {
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+
+  .CombienDeTemps .logo {
+    width: 20px;
+    height: 20px;
+    margin: 3px;
+  }
+
+  .CombienDeTemps div {
+    gap: 8px; /* Réduire l'espacement entre les éléments */
+  }
+
+  .CombienDeTemps button {
+    margin: 6px;
+    padding: 8px 15px;
+    font-size: 12px;
+  }
+}
