@@ -1,75 +1,91 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'; 
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import '../styles/Profile.css';
 
 const Profile = () => {
-  // État pour les données utilisateur, en initialisant les valeurs vides
   const [userData, setUserData] = useState({
-    username: '', 
-    age: '', 
-    preferences: '', 
-    biography: '', 
-    gender: '', 
-    phone: '',   
-    email: ''    
+    username: '',
+    age: '',
+    preferences: '',
+    biography: '',
+    gender: '',
+    phone: '',
+    email: ''
   });
 
-  const [isEditing, setIsEditing] = useState(false); // Gérer le mode édition
-  const [originalData, setOriginalData] = useState({}); // Stocker les données originales
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // Gérer l'état de la connexion
-  const navigate = useNavigate(); // Utiliser le hook pour la navigation
+  const [isEditing, setIsEditing] = useState(false);
+  const [originalData, setOriginalData] = useState({});
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const navigate = useNavigate();
+
+  // Fonction pour récupérer le profil utilisateur depuis le serveur
+  const fetchProfile = async (email) => {
+    try {
+      const response = await axios.get(`http://localhost:5000/api/profile/${email}`);
+      setUserData(response.data);
+      setOriginalData(response.data);
+    } catch (error) {
+      console.error('Erreur lors de la récupération du profil:', error);
+    }
+  };
+
+  // Fonction pour enregistrer les modifications du profil
+  const saveProfile = async () => {
+    try {
+      console.log("Données envoyées:", userData);  // Ajout d'un log
+      const response = await axios.put(`http://localhost:5000/api/profile/${userData.email}`, userData);
+      console.log('Réponse du serveur:', response.data);  // Ajout d'un log pour la réponse
+      alert('Profil mis à jour avec succès !');
+      setOriginalData(response.data);
+      setIsEditing(false);
+    } catch (error) {
+      console.error('Erreur lors de la mise à jour du profil:', error);
+    }
+  };
 
   useEffect(() => {
-    // Vérifier si un token d'authentification existe dans le stockage local
     const token = localStorage.getItem('authToken');
-    if (token) {
-      setIsLoggedIn(true); // Si token présent, l'utilisateur est connecté
+    if (!token) {
+      setIsLoggedIn(false);
+      navigate('/signin');  // Rediriger vers '/signin' si l'utilisateur n'est pas connecté
     } else {
-      setIsLoggedIn(false); // Sinon, l'utilisateur n'est pas connecté
+      setIsLoggedIn(true);
     }
-    
-    // Simuler la récupération des données utilisateur (pour l'exemple)
-    const savedUserData = {
-      username: '',
-      age: '',
-      preferences: '',
-      biography: '',
-      gender: '',
-      phone: '',
-      email: ''
-    };
-    setUserData(savedUserData); // Mettre à jour les données utilisateur
-    setOriginalData(savedUserData); // Sauvegarder les données originales pour annuler les modifications
-  }, []);
 
-  // Gérer les changements dans les champs de saisie
+    const email = 'user@example.com';  // Remplacez par l'email de l'utilisateur connecté
+    fetchProfile(email);  // Récupérer le profil à partir de l'email
+  }, [navigate]);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setUserData({
-      ...userData,
-      [name]: value,
-    });
+    setUserData({ ...userData, [name]: value });
   };
 
-  // Sauvegarder les modifications
-  const handleSave = () => {
-    console.log('Nouvelles données de l\'utilisateur:', userData);
-    setOriginalData(userData); // Mettre à jour les données originales après la sauvegarde
-    setIsEditing(false); // Fermer le mode édition
+  const handleSave = async () => {
+    await saveProfile();  // Appel à la fonction saveProfile pour enregistrer les modifications
   };
 
-  // Annuler les modifications
   const handleCancel = () => {
-    setUserData(originalData); // Revenir aux données originales
-    setIsEditing(false); // Fermer le mode édition
+    setUserData(originalData); // Restaurer les données originales
+    setIsEditing(false);
   };
 
-  // Gérer la déconnexion
   const handleLogout = () => {
-    localStorage.removeItem('authToken'); // Supprimer le token d'authentification
-    setIsLoggedIn(false); // Mettre à jour l'état de la connexion
-    navigate('/login'); // Rediriger vers la page de connexion
+    localStorage.removeItem('authToken');
+    setIsLoggedIn(false);
+    navigate('/signin');  // Rediriger vers '/signin' après la déconnexion
   };
+
+  // Si l'utilisateur n'est pas connecté, afficher un message
+  if (!isLoggedIn) {
+    return (
+      <div className="profile-container">
+        <h1>Veuillez vous connecter pour accéder à votre profil</h1>
+        <p>Vous devez être connecté pour pouvoir modifier votre profil.</p>
+      </div>
+    );
+  }
 
   return (
     <div className="profile-container">
@@ -79,46 +95,23 @@ const Profile = () => {
         <div>
           <div>
             <label>Nom d'utilisateur:</label>
-            <input 
-              type="text" 
-              name="username" 
-              value={userData.username} 
-              onChange={handleChange}
-            />
+            <input type="text" name="username" value={userData.username} onChange={handleChange} />
           </div>
           <div>
             <label>Âge:</label>
-            <input 
-              type="number" 
-              name="age" 
-              value={userData.age} 
-              onChange={handleChange}
-            />
+            <input type="number" name="age" value={userData.age} onChange={handleChange} />
           </div>
           <div>
             <label>Préférences de films:</label>
-            <input 
-              type="text" 
-              name="preferences" 
-              value={userData.preferences} 
-              onChange={handleChange}
-            />
+            <input type="text" name="preferences" value={userData.preferences} onChange={handleChange} />
           </div>
           <div>
             <label>Biographie:</label>
-            <textarea 
-              name="biography" 
-              value={userData.biography} 
-              onChange={handleChange}
-            />
+            <textarea name="biography" value={userData.biography} onChange={handleChange} />
           </div>
           <div>
             <label>Sexe:</label>
-            <select 
-              name="gender" 
-              value={userData.gender} 
-              onChange={handleChange}
-            >
+            <select name="gender" value={userData.gender} onChange={handleChange}>
               <option value="">Choisir</option>
               <option value="Male">Homme</option>
               <option value="Female">Femme</option>
@@ -127,21 +120,11 @@ const Profile = () => {
           </div>
           <div>
             <label>Téléphone:</label>
-            <input 
-              type="tel" 
-              name="phone" 
-              value={userData.phone} 
-              onChange={handleChange}
-            />
+            <input type="tel" name="phone" value={userData.phone} onChange={handleChange} />
           </div>
           <div>
             <label>Email:</label>
-            <input 
-              type="email" 
-              name="email" 
-              value={userData.email} 
-              onChange={handleChange}
-            />
+            <input type="email" name="email" value={userData.email} onChange={handleChange} disabled />
           </div>
 
           <button onClick={handleSave}>Enregistrer les modifications</button>
@@ -157,8 +140,14 @@ const Profile = () => {
           <p><strong>Téléphone:</strong> {userData.phone || 'Non renseigné'}</p>
           <p><strong>Email:</strong> {userData.email || 'Non renseigné'}</p>
 
-          {/* Bouton Modifier toujours visible */}
-          <button className="profile-button" onClick={() => setIsEditing(true)}>Modifier</button>
+          {/* Bouton "Modifier" amélioré */}
+          <button 
+            className="profile-button" 
+            onClick={() => setIsEditing(true)} 
+            disabled={!isLoggedIn}
+          >
+            Modifier
+          </button>
         </div>
       )}
 
