@@ -1,30 +1,48 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'; // Remplacez useHistory par useNavigate
+import { useNavigate } from 'react-router-dom'; 
 import '../styles/Profile.css';
 
 const Profile = () => {
+  // État pour les données utilisateur, en initialisant les valeurs vides
   const [userData, setUserData] = useState({
-    username: '', // Valeur initiale vide
-    age: '', // Valeur initiale vide
-    preferences: '', // Valeur initiale vide
-    biography: '', // Valeur initiale vide
+    username: '', 
+    age: '', 
+    preferences: '', 
+    biography: '', 
+    gender: '', 
+    phone: '',   
+    email: ''    
   });
 
-  const [isEditing, setIsEditing] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // Ajout de l'état pour vérifier si l'utilisateur est connecté
-  const navigate = useNavigate(); // Utilisez useNavigate au lieu de useHistory
+  const [isEditing, setIsEditing] = useState(false); // Gérer le mode édition
+  const [originalData, setOriginalData] = useState({}); // Stocker les données originales
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // Gérer l'état de la connexion
+  const navigate = useNavigate(); // Utiliser le hook pour la navigation
 
-  // Vérifier si l'utilisateur est connecté (présence du token)
   useEffect(() => {
+    // Vérifier si un token d'authentification existe dans le stockage local
     const token = localStorage.getItem('authToken');
     if (token) {
-      setIsLoggedIn(true); // Si le token est présent, l'utilisateur est connecté
+      setIsLoggedIn(true); // Si token présent, l'utilisateur est connecté
     } else {
       setIsLoggedIn(false); // Sinon, l'utilisateur n'est pas connecté
     }
+    
+    // Simuler la récupération des données utilisateur (pour l'exemple)
+    const savedUserData = {
+      username: '',
+      age: '',
+      preferences: '',
+      biography: '',
+      gender: '',
+      phone: '',
+      email: ''
+    };
+    setUserData(savedUserData); // Mettre à jour les données utilisateur
+    setOriginalData(savedUserData); // Sauvegarder les données originales pour annuler les modifications
   }, []);
 
-  // Gérer la modification des champs
+  // Gérer les changements dans les champs de saisie
   const handleChange = (e) => {
     const { name, value } = e.target;
     setUserData({
@@ -33,24 +51,30 @@ const Profile = () => {
     });
   };
 
-  // Gérer l'enregistrement des modifications
+  // Sauvegarder les modifications
   const handleSave = () => {
     console.log('Nouvelles données de l\'utilisateur:', userData);
-    setIsEditing(false); // Désactive le mode édition après l'enregistrement
+    setOriginalData(userData); // Mettre à jour les données originales après la sauvegarde
+    setIsEditing(false); // Fermer le mode édition
   };
 
-  // Fonction de déconnexion
+  // Annuler les modifications
+  const handleCancel = () => {
+    setUserData(originalData); // Revenir aux données originales
+    setIsEditing(false); // Fermer le mode édition
+  };
+
+  // Gérer la déconnexion
   const handleLogout = () => {
-    localStorage.removeItem('authToken'); // Exemple avec localStorage
-    setIsLoggedIn(false); // Mettez à jour l'état de la connexion
-    navigate('/login'); // Redirection vers la page de connexion
+    localStorage.removeItem('authToken'); // Supprimer le token d'authentification
+    setIsLoggedIn(false); // Mettre à jour l'état de la connexion
+    navigate('/login'); // Rediriger vers la page de connexion
   };
 
   return (
-    <div>
+    <div className="profile-container">
       <h1>Profil Utilisateur</h1>
 
-      {/* Affichage du formulaire en fonction du mode d'édition */}
       {isEditing ? (
         <div>
           <div>
@@ -88,8 +112,40 @@ const Profile = () => {
               onChange={handleChange}
             />
           </div>
+          <div>
+            <label>Sexe:</label>
+            <select 
+              name="gender" 
+              value={userData.gender} 
+              onChange={handleChange}
+            >
+              <option value="">Choisir</option>
+              <option value="Male">Homme</option>
+              <option value="Female">Femme</option>
+              <option value="Other">Autre</option>
+            </select>
+          </div>
+          <div>
+            <label>Téléphone:</label>
+            <input 
+              type="tel" 
+              name="phone" 
+              value={userData.phone} 
+              onChange={handleChange}
+            />
+          </div>
+          <div>
+            <label>Email:</label>
+            <input 
+              type="email" 
+              name="email" 
+              value={userData.email} 
+              onChange={handleChange}
+            />
+          </div>
 
           <button onClick={handleSave}>Enregistrer les modifications</button>
+          <button onClick={handleCancel}>Annuler les modifications</button>
         </div>
       ) : (
         <div>
@@ -97,14 +153,17 @@ const Profile = () => {
           <p><strong>Âge:</strong> {userData.age || 'Non renseigné'}</p>
           <p><strong>Préférences de films:</strong> {userData.preferences || 'Non renseignées'}</p>
           <p><strong>Biographie:</strong> {userData.biography || 'Non renseignée'}</p>
+          <p><strong>Sexe:</strong> {userData.gender || 'Non renseigné'}</p>
+          <p><strong>Téléphone:</strong> {userData.phone || 'Non renseigné'}</p>
+          <p><strong>Email:</strong> {userData.email || 'Non renseigné'}</p>
 
-          <button onClick={() => setIsEditing(true)}>Modifier</button>
+          {/* Bouton Modifier toujours visible */}
+          <button className="profile-button" onClick={() => setIsEditing(true)}>Modifier</button>
         </div>
       )}
 
-      {/* Afficher le bouton de déconnexion uniquement si l'utilisateur est connecté */}
       {isLoggedIn && (
-        <button onClick={handleLogout}>Déconnexion</button>
+        <button className="logout-button" onClick={handleLogout}>Déconnexion</button>
       )}
     </div>
   );
