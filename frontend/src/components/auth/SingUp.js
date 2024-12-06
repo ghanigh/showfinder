@@ -8,7 +8,7 @@ const SignUp = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const [successMessage, setSuccessMessage] = useState(''); // État pour le message de succès
+  const [successMessage, setSuccessMessage] = useState('');
   const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
@@ -21,23 +21,22 @@ const SignUp = () => {
       });
 
       setError('');
-      setSuccessMessage('Inscription réussie !'); // Affiche le message de succès
+      setSuccessMessage('Inscription réussie !');
 
-      // Attends un peu avant de rediriger
       setTimeout(() => {
-        setSuccessMessage(''); // Masque le message de succès après redirection
-        navigate('/profile'); 
-      }, 2000); // Redirection après 2 secondes
+        setSuccessMessage('');
+        navigate('/profile'); // Redirection vers la page de profil après 2 secondes
+      }, 2000);
     } catch (error) {
       setError('Erreur lors de l\'inscription');
-      setSuccessMessage(''); // Réinitialise le message de succès en cas d'erreur
+      setSuccessMessage('');
     }
   };
 
   return (
     <div className="sign-up">
       <h2>Inscription</h2>
-      {successMessage && <p className="success-message">{successMessage}</p>} {/* Affiche le message de succès */}
+      {successMessage && <p className="success-message">{successMessage}</p>}
       <form onSubmit={handleSubmit}>
         <label>
           Nom d'utilisateur:

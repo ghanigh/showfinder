@@ -1,52 +1,70 @@
 /* Styles pour la section de profil */
-.profile {
-  background-color: #1f1f1f;
-  color: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
-  text-align: center;
-  max-width: 600px; /* Ajout d'une largeur maximale pour garder la présentation uniforme */
-  margin: 0 auto; /* Centre la section sur la page */
+.profile-container {
+  background-color: #2a2a2a;
+  color: #f0f0f0;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+  text-align: left;
+  max-width: 700px; /* Largeur maximale légèrement augmentée */
+  margin: 40px auto; /* Centre la section avec un espacement sur le haut et le bas */
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Effet de transition au survol */
+}
+
+.profile-container:hover {
+  transform: translateY(-5px); /* Légère élévation au survol */
+  box-shadow: 0px 12px 24px rgba(0, 0, 0, 0.3); /* Ombre plus accentuée */
 }
 
 /* Style pour le titre du profil */
-.profile h2 {
-  font-size: 24px;
-  margin-bottom: 20px;
+.profile-container h2 {
+  font-size: 28px;
+  margin-bottom: 15px;
+  color: #f3a847; /* Couleur moderne pour le titre */
+  font-weight: 600;
+  text-align: center;
 }
 
 /* Style pour le texte du profil */
-.profile p {
+.profile-container p {
+  font-size: 18px;
+  line-height: 1.6;
+  margin: 12px 0;
+  color: #d1d1d1;
+}
+
+/* Styles des champs de saisie (formulaire) */
+.profile-container input,
+.profile-container textarea {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border: 2px solid #f3a847;
+  border-radius: 8px;
+  background-color: #333;
+  color: #fff;
   font-size: 16px;
-  line-height: 1.5; /* Améliore la lisibilité */
+  transition: border-color 0.3s ease;
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-  .profile {
-    padding: 15px;
-  }
-
-  .profile h2 {
-    font-size: 20px;
-  }
-
-  .profile p {
-    font-size: 14px;
-  }
+.profile-container input:focus,
+.profile-container textarea:focus {
+  border-color: #ffb74d; /* Changement de couleur de la bordure au focus */
+  outline: none;
 }
 
-@media (max-width: 480px) {
-  .profile {
-    padding: 10px;
-  }
+.profile-container button {
+  background-color: #f3a847;
+  color: #fff;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 18px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 20px;
+}
 
-  .profile h2 {
-    font-size: 18px;
-  }
-
-  .profile p {
-    font-size: 12px;
-  }
+.profile-container button:hover {
+  background-color: #ffb74d; /* Couleur au survol */
 }

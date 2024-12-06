@@ -7,7 +7,7 @@ const SignIn = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const [successMessage, setSuccessMessage] = useState(''); // État pour le message de succès
+  const [successMessage, setSuccessMessage] = useState('');
   const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
@@ -18,27 +18,26 @@ const SignIn = () => {
         password,
       });
 
-      // Stockage du token d'authentification dans le localStorage
+      // Stocker le token d'authentification dans le localStorage
       localStorage.setItem('authToken', JSON.stringify(data.token));
 
       setError('');
-      setSuccessMessage('Connexion réussie !'); // Affiche le message de succès
+      setSuccessMessage('Connexion réussie !');
 
-      // Attends un peu avant de rediriger
       setTimeout(() => {
-        setSuccessMessage(''); // Masque le message de succès après redirection
-        navigate('/profile');
-      }, 2000); // Redirection après 2 secondes
+        setSuccessMessage('');
+        navigate('/profile'); // Redirection vers la page de profil après 2 secondes
+      }, 2000);
     } catch (error) {
       setError('Erreur lors de la connexion');
-      setSuccessMessage(''); // Réinitialise le message de succès en cas d'erreur
+      setSuccessMessage('');
     }
   };
 
   return (
     <div className="sign-in">
       <h2>Connexion</h2>
-      {successMessage && <p className="success-message">{successMessage}</p>} {/* Affiche le message de succès */}
+      {successMessage && <p className="success-message">{successMessage}</p>}
       <form onSubmit={handleSubmit}>
         <label>
           Email:

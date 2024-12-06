@@ -21,9 +21,9 @@ function App() {
   const [config, setConfig] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false); 
   const [isAdmin, setIsAdmin] = useState(false);
-  const [showLegalNotice, setShowLegalNotice] = useState(false); // État pour afficher les mentions légales
-  const [showPrivacyPolicy, setShowPrivacyPolicy] = useState(false); // État pour afficher la politique de confidentialité
-  const [showTermsOfService, setShowTermsOfService] = useState(false); // État pour afficher les conditions d'utilisation
+  const [showLegalNotice, setShowLegalNotice] = useState(false);
+  const [showPrivacyPolicy, setShowPrivacyPolicy] = useState(false);
+  const [showTermsOfService, setShowTermsOfService] = useState(false);
 
   const apiKey = '893fb1986c97f41a3868c76bf2cf6e34';
 
@@ -77,10 +77,21 @@ function App() {
     setSelectedPlatform('');
   };
 
+  // Fonction de retour à l'accueil
+  const handleReturnToHome = () => {
+    setCurrentPage('home');
+  };
+
   return (
     <div className="App">
       <header>
         <ProfileButton onLogin={handleLogin} onLogout={handleLogout} /> 
+        {/* Affichage du bouton Retour à l'accueil uniquement sur la page Profile */}
+        {currentPage === 'profile' && (
+          <button onClick={handleReturnToHome} className="back-to-home">
+            Retour à l'accueil
+          </button>
+        )}
       </header>
 
       {/* Affichage conditionnel des pages légales */}

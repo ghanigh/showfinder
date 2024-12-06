@@ -5,29 +5,32 @@ dotenv.config();
 
 // Middleware pour authentifier l'utilisateur via un token JWT
 export const authenticate = (req, res, next) => {
-  const token = req.cookies.access_token; // Récupère le token du cookie
+  const token = req.cookies.access_token; // Récupère le token depuis les cookies
 
-  // Si aucun token n'est présent, l'accès est refusé
   if (!token) {
-    return res.status(401).json({ message: "No token, authorization denied" });
+    return res.status(401).json({ message: "No token provided, authorization denied" });
   }
 
   try {
     // Vérifie la validité du token avec la clé secrète
     const decoded = jwt.verify(token, process.env.TOKEN);
-    req.user = decoded; // Ajoute les informations de l'utilisateur dans la requête
-    next(); // Passe à l'étape suivante du middleware ou de la route
+
+    // Ajoute les informations de l'utilisateur dans la requête pour les étapes suivantes
+    req.user = decoded;
+
+    next(); // Passe à l'étape suivante
   } catch (error) {
-    // Si le token est invalide ou expiré, retourne une erreur 401
-    res.status(401).json({ message: "Token is not valid" });
+    console.error("Authentication error:", error.message);
+    res.status(401).json({ message: "Invalid or expired token" });
   }
 };
 
 // Middleware pour autoriser uniquement les utilisateurs avec le rôle 'admin'
 export const authorizeAdmin = (req, res, next) => {
-  // Si l'utilisateur n'est pas un admin, l'accès est refusé
+  // Vérifie si le rôle de l'utilisateur est 'admin'
   if (req.user.role !== "admin") {
-    return res.status(403).json({ message: "Access denied, admin only" });
+    return res.status(403).json({ message: "Access denied: Admins only" });
   }
+
   next(); // Si l'utilisateur est un admin, passe à l'étape suivante
 };
