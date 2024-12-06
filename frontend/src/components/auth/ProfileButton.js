@@ -17,16 +17,9 @@ const ProfileButton = ({ onLogin, onLogout }) => {
     setIsSignIn(!isSignIn);
   };
 
-  // Fonction pour naviguer vers le profil et fermer la modale
   const navigateToProfile = () => {
     onLogin(); // Appelle la fonction de connexion
-    setIsSidebarOpen(false); // Ferme la modale
     navigate('/profile'); // Navigue vers la page de profil
-  };
-
-  // Fonction pour fermer la modale après l'inscription ou la connexion
-  const handleSuccess = () => {
-    setIsSidebarOpen(false); // Fermer la modale après connexion ou inscription
   };
 
   return (
@@ -36,11 +29,7 @@ const ProfileButton = ({ onLogin, onLogout }) => {
       </button>
       <div className={`modal ${isSidebarOpen ? 'active' : ''}`}>
         <div className="modal-content">
-          {isSignIn ? (
-            <SignIn onSuccess={handleSuccess} /> // Passer la fonction handleSuccess au composant SignIn
-          ) : (
-            <SignUp onSuccess={handleSuccess} /> // Passer la fonction handleSuccess au composant SignUp
-          )}
+          {isSignIn ? <SignIn /> : <SignUp />}
           <button className="toggle-form-btn" onClick={handleToggleForm}>
             {isSignIn ? "Pas encore inscrit? Inscrivez-vous" : "Déjà inscrit? Connectez-vous"}
           </button>

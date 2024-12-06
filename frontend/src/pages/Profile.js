@@ -71,12 +71,6 @@ const Profile = () => {
     setIsEditing(false);
   };
 
-  const handleLogout = () => {
-    localStorage.removeItem('authToken');
-    setIsLoggedIn(false);
-    navigate('/signin');  // Rediriger vers '/signin' après la déconnexion
-  };
-
   // Si l'utilisateur n'est pas connecté, afficher un message
   if (!isLoggedIn) {
     return (
@@ -140,7 +134,7 @@ const Profile = () => {
           <p><strong>Téléphone:</strong> {userData.phone || 'Non renseigné'}</p>
           <p><strong>Email:</strong> {userData.email || 'Non renseigné'}</p>
 
-          {/* Bouton "Modifier" amélioré */}
+          {/* Bouton "Modifier" déplacé ici */}
           <button 
             className="profile-button" 
             onClick={() => setIsEditing(true)} 
@@ -149,10 +143,6 @@ const Profile = () => {
             Modifier
           </button>
         </div>
-      )}
-
-      {isLoggedIn && (
-        <button className="logout-button" onClick={handleLogout}>Déconnexion</button>
       )}
     </div>
   );
