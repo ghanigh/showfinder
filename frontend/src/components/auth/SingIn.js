@@ -27,7 +27,7 @@ const SignIn = () => {
         email,
         password,
       });
-
+      console.log(data)
       // Stocker le token d'authentification dans le localStorage
       localStorage.setItem('authToken', JSON.stringify(data.token));
 
@@ -100,3 +100,4 @@ const SignIn = () => {
 };
 
 export default SignIn;
+

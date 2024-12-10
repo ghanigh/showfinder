@@ -50,6 +50,7 @@ const register = async (req, res) => {
 // Fonction pour connecter un utilisateur
 const login = async (req, res, next) => {
   try {
+    console.log('String')
     const user = await User.findOne({ email: req.body.email }); // Cherche l'utilisateur par email
     if (!user) return res.status(404).json("User not found!");
 
