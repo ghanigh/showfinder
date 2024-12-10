@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const baseURL = import.meta.env.BASEURL;
+const baseURL = import.meta.env.REACT_APP_BACKEND_URL;
 
 const url = {
   movies: `${baseURL}/movies`,
