@@ -8,12 +8,11 @@ const SignIn = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
-  const [logoutMessage, setLogoutMessage] = useState('');
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [logoutMessage, setLogoutMessage] = useState(''); // Nouveau state pour le message de déconnexion
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // Ajout d'un état de connexion
   const navigate = useNavigate();
 
-  // Vérifie si l'utilisateur est déjà connecté
+  // Vérifier si l'utilisateur est déjà connecté à l'ouverture
   useEffect(() => {
     const token = localStorage.getItem('authToken');
     if (token) {
@@ -23,58 +22,56 @@ const SignIn = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    setLoading(true);
-    setError('');
-    setSuccessMessage('');
-
     try {
       const { data } = await axios.post('http://localhost:5000/api/auth/login', {
         email,
         password,
       });
+      console.log(data)
+      // Stocker le token d'authentification dans le localStorage
+      localStorage.setItem('authToken', JSON.stringify(data.token));
 
-      // Stocker le token dans le localStorage
-      localStorage.setItem('authToken', data.token);
-
+      setError('');
       setSuccessMessage('Connexion réussie !');
-      setIsLoggedIn(true);
+      setIsLoggedIn(true); // Mettre à jour l'état pour indiquer que l'utilisateur est connecté
+
       setTimeout(() => {
-        navigate('/profile');
+        setSuccessMessage('');
+        navigate('/profile'); // Redirection vers la page de profil après 2 secondes
       }, 2000);
-    } catch (err) {
-      console.error('Erreur de connexion:', err.response?.data || err.message);
-      setError(err.response?.data?.message || 'Erreur lors de la connexion');
-    } finally {
-      setLoading(false);
+    } catch (error) {
+      setError('Erreur lors de la connexion');
+      setSuccessMessage('');
     }
   };
 
+  // Fonction de déconnexion
   const handleLogout = () => {
     localStorage.removeItem('authToken');
-    setIsLoggedIn(false);
-    setLogoutMessage('Déconnexion réussie !');
+    setIsLoggedIn(false); // Mettre à jour l'état pour indiquer que l'utilisateur est déconnecté
+    setLogoutMessage('Déconnexion réussie !'); // Afficher le message de déconnexion
 
+    // Après 3 secondes, rediriger vers la page de connexion et enlever le message de déconnexion
     setTimeout(() => {
       setLogoutMessage('');
-      navigate('/signin');
+      navigate('/signin'); // Redirection vers la page de connexion après déconnexion
     }, 3000);
   };
 
   return (
     <div className="sign-in">
       <h2>Connexion</h2>
-
       {successMessage && <p className="success-message">{successMessage}</p>}
-      {logoutMessage && <p className="logout-message">{logoutMessage}</p>}
-      {error && <p className="error">{error}</p>}
-
-      {loading && <p>Chargement...</p>}
+      
+      {logoutMessage && <p className="logout-message">{logoutMessage}</p>} {/* Affichage du message de déconnexion */}
 
       {isLoggedIn ? (
+        // Afficher uniquement le bouton Déconnexion si l'utilisateur est connecté
         <div>
           <button onClick={handleLogout}>Déconnexion</button>
         </div>
       ) : (
+        // Afficher la modal de connexion si l'utilisateur n'est pas connecté
         <form onSubmit={handleSubmit}>
           <label>
             Email:
@@ -94,9 +91,8 @@ const SignIn = () => {
               required
             />
           </label>
-          <button type="submit" disabled={loading}>
-            {loading ? 'Connexion...' : 'Se connecter'}
-          </button>
+          <button type="submit">Se connecter</button>
+          {error && <p className="error">{error}</p>}
         </form>
       )}
     </div>
@@ -104,3 +100,4 @@ const SignIn = () => {
 };
 
 export default SignIn;
+
