@@ -1,7 +1,6 @@
 import axios from 'axios';
 
-const baseURL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000/api';
-
+const baseURL = import.meta.env.REACT_APP_BACKEND_URL;
 
 const url = {
   movies: `${baseURL}/movies`,
